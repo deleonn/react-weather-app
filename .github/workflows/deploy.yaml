@@ -25,6 +25,7 @@ jobs:
     
     - name: Build and deploy
       run: |
+        npm run build
         node ./.github/scripts/deploy.js
       env:
         CI: false
