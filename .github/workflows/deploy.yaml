@@ -21,6 +21,8 @@ jobs:
     
     - name: Build and deploy
       run: |
+        git config user.email "boot@github.com"
+        git config user.name "GH Actions Boot"
         npm run deploy
       env:
         CI: false
