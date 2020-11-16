@@ -9,6 +9,13 @@ const Container = styled.div`
   width: 400px;
   margin-bottom: 5rem;
   margin-left: 3rem;
+
+  @media (max-width: 900px) {
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    padding: 2rem 0;
+  }
 `;
 
 const InfoContainer = styled.div`

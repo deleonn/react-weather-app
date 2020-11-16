@@ -11,8 +11,16 @@ const Container = styled.div<{ bgColor: string | undefined }>`
   color: ${(props) => props.theme.fontColor};
   background: ${(props) => props.bgColor};
   width: calc(100vw / 5);
-  max-width: 200px;
+  max-width: 220px;
   height: 254px;
+  margin: 0 0.6rem;
+
+  @media (max-width: 900px) {
+    width: 150px;
+    padding: 0 1rem;
+    margin: 0 0.5rem;
+    height: 200px;
+  }
 `;
 
 const Title = styled.h3`

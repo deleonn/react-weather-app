@@ -7,10 +7,18 @@ import { getWeather } from './util/services';
 
 const MainContainer = styled.div`
   background: ${(props) => props.theme.background};
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   max-width: 100vw;
   margin: 0;
   overflow: hidden;
+`;
+
+const Content = styled.div`
+  padding: 3rem;
+  @media (max-width: 900px) {
+    padding: 4rem 0rem;
+  }
 `;
 
 const ForecastContainer = styled.div`
@@ -19,6 +27,13 @@ const ForecastContainer = styled.div`
   max-width: 100vw;
   width: 100%;
   margin: 0 auto;
+
+  @media (max-width: 900px) {
+    justify-content: flex-start;
+    flex-direction: row;
+    overflow-x: scroll;
+    margin: 0 0.4rem;
+  }
 `;
 
 const ThemeToggle = styled.span`
@@ -78,7 +93,7 @@ function App() {
         )}
 
         {!loadingWeather && !requestError && (
-          <div style={{ padding: '3rem' }}>
+          <Content>
             <CurrentInfoWidget
               timezone={weatherData.timezone}
               type={weatherData.current.weather[0].main}
@@ -107,7 +122,7 @@ function App() {
                     />
                   ))}
             </ForecastContainer>
-          </div>
+          </Content>
         )}
       </MainContainer>
     </ThemeProvider>
