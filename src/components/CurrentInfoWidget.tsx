@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import format from 'date-fns/format';
 
 const Container = styled.div`
@@ -69,8 +69,6 @@ function CurrentInfoWidget({
   temperature,
   icon,
 }: Props) {
-  const { fontColor } = useContext(ThemeContext);
-
   return (
     <Container>
       {!loading && (

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 import format from 'date-fns/format';
 
 const Container = styled.div<{ bgColor: string | undefined }>`
@@ -50,8 +50,6 @@ interface Props {
 }
 
 function DayWidget({ date, icon, high, low, bgColor }: Props) {
-  const { fontColor } = useContext(ThemeContext);
-
   return (
     <Container bgColor={bgColor}>
       <Title>{format(new Date(date * 1000), 'EEEE')}</Title>

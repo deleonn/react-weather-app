@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { WiDaySunny, WiNightClear } from 'weather-icons-react';
-import { CurrentInfoWidget, DayWidget, Notify } from './components';
+import { ThemeToggle, ForecastContainer, Geolocation } from './components';
 import { lightTheme, darkTheme, useLocation, useTheme } from './util';
 import { getWeather } from './util/services';
 
@@ -14,41 +13,12 @@ const MainContainer = styled.div`
   overflow: hidden;
 `;
 
-const Content = styled.div`
-  padding: 3rem;
-  @media (max-width: 900px) {
-    padding: 4rem 0rem;
-  }
-`;
-
-const ForecastContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  max-width: 100vw;
-  width: 100%;
-  margin: 0 auto;
-
-  @media (max-width: 900px) {
-    justify-content: flex-start;
-    flex-direction: row;
-    overflow-x: scroll;
-    margin: 0 0.4rem;
-  }
-`;
-
-const ThemeToggle = styled.span`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-`;
-
 function App() {
-  const { locationError, location, loading } = useLocation();
-  const { theme, toggleTheme } = useTheme();
+  const { locationError, location, loadingLocation } = useLocation();
+  const { theme } = useTheme();
+
   const [weatherData, setWeatherData] = useState<any>({});
   const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
-  const [requestError, setRequestError] = useState<boolean>(false);
 
   useEffect(() => {
     if (!Object.keys(weatherData).length) {
@@ -62,7 +32,7 @@ function App() {
 
       // Something wrong happened, handle error
       if (res.status !== 200) {
-        setRequestError(true);
+        setWeatherData(null);
       } else {
         setWeatherData(res.data);
       }
@@ -73,57 +43,11 @@ function App() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <MainContainer>
-        <ThemeToggle onClick={toggleTheme}>
-          {theme === 'dark' && <WiDaySunny size={40} color="#fff" />}
-          {theme === 'light' && <WiNightClear size={40} color="#2d2d2d" />}
-        </ThemeToggle>
+        <ThemeToggle />
 
-        {locationError && <Notify>{locationError}</Notify>}
+        <Geolocation error={locationError} loading={loadingLocation} />
 
-        {(loading || loadingWeather) && (
-          <Notify>
-            Loading... be sure your browser allows sharing your current location
-          </Notify>
-        )}
-
-        {requestError && (
-          <Notify>
-            There was an error handling the request. Please try again soon.
-          </Notify>
-        )}
-
-        {!loadingWeather && !requestError && (
-          <Content>
-            <CurrentInfoWidget
-              timezone={weatherData.timezone}
-              type={weatherData.current.weather[0].main}
-              icon={weatherData.current.weather[0].icon}
-              date={weatherData.current.dt}
-              loading={loadingWeather}
-              temperature={weatherData.current.temp}
-            />
-
-            <ForecastContainer>
-              {weatherData &&
-                weatherData.daily
-                  .slice(0, 5)
-                  .map((el: any, idx: number) => (
-                    <DayWidget
-                      key={el.dt}
-                      date={el.dt}
-                      low={el.temp.min}
-                      high={el.temp.max}
-                      icon={el.weather[0].icon}
-                      bgColor={
-                        theme === 'dark'
-                          ? darkTheme.cardColors[idx]
-                          : lightTheme.cardColors[idx]
-                      }
-                    />
-                  ))}
-            </ForecastContainer>
-          </Content>
-        )}
+        <ForecastContainer data={weatherData} loading={loadingWeather} />
       </MainContainer>
     </ThemeProvider>
   );

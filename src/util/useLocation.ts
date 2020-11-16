@@ -8,11 +8,11 @@ interface Coords {
 export const useLocation = (): {
   location: Coords | null;
   locationError: string | null;
-  loading: boolean;
+  loadingLocation: boolean;
 } => {
   const [location, setLocation] = useState<Coords | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingLocation, setLoadingLocation] = useState<boolean>(true);
 
   useEffect(() => {
     const location = navigator.geolocation;
@@ -34,12 +34,12 @@ export const useLocation = (): {
       latitude: coords.latitude,
       longitude: coords.longitude,
     });
-    setLoading(false);
+    setLoadingLocation(false);
   };
   const onError = (error: PositionError) => {
     setLocationError(error.message);
-    setLoading(false);
+    setLoadingLocation(false);
   };
 
-  return { location, locationError, loading };
+  return { location, locationError, loadingLocation };
 };
