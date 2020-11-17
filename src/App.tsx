@@ -15,7 +15,7 @@ const MainContainer = styled.div`
 
 function App() {
   const { locationError, location, loadingLocation } = useLocation();
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   const [weatherData, setWeatherData] = useState<any>({});
   const [loadingWeather, setLoadingWeather] = useState<boolean>(true);
@@ -43,11 +43,15 @@ function App() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <MainContainer>
-        <ThemeToggle />
+        <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
         <Geolocation error={locationError} loading={loadingLocation} />
 
-        <ForecastContainer data={weatherData} loading={loadingWeather} />
+        <ForecastContainer
+          data={weatherData}
+          loading={loadingWeather}
+          theme={theme}
+        />
       </MainContainer>
     </ThemeProvider>
   );

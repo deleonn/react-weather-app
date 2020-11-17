@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useTheme } from '../util';
+import { Theme } from '../util';
 import { WiDaySunny, WiNightClear } from 'weather-icons-react';
 
 const ToggleContainer = styled.span`
@@ -10,8 +10,12 @@ const ToggleContainer = styled.span`
   cursor: pointer;
 `;
 
-function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
+interface Props {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+function ThemeToggle({ theme, toggleTheme }: Props) {
   return (
     <ToggleContainer onClick={toggleTheme}>
       {theme === 'dark' && <WiDaySunny size={40} color="#fff" />}

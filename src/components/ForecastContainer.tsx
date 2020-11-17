@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { lightTheme, darkTheme, useTheme } from '../util';
+import { lightTheme, darkTheme, Theme } from '../util';
 import CurrentInfoWidget from './CurrentInfoWidget';
 import DayWidget from './DayWidget';
 import CustomLoader from './CustomLoader';
@@ -31,11 +31,10 @@ export const ForecastContentInner = styled.div`
 interface Props {
   data: any;
   loading: boolean;
+  theme: Theme;
 }
 
-function ForecastContainer({ data, loading }: Props) {
-  const { theme } = useTheme();
-
+function ForecastContainer({ data, loading, theme }: Props) {
   return (
     <>
       {loading ? (
